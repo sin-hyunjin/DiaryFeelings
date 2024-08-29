@@ -20,7 +20,7 @@ const handler = NextAuth({
         },
       },
       async authorize(credentials, req) {
-        const res = await axios.post(`http://localhost:3000/api/login`, {
+        const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/login`, {
           username: credentials?.username,
           password: credentials?.password,
         })
@@ -74,6 +74,7 @@ const handler = NextAuth({
           token.snsRefresh = account.snsRefresh
         }
       }
+
       return token
     },
     async session({ session, token, user }: any) {
@@ -90,8 +91,8 @@ const handler = NextAuth({
   },
   pages: {
     // 로그인 페이지를 signin으로 함.
-      signIn: '/signin'
-  }
+    signIn: '/signin',
+  },
 })
 
 export { handler as GET, handler as POST }
